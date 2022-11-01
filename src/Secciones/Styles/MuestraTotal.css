@@ -1,0 +1,15 @@
+.muestraTotal{
+    width: 100%;
+    margin-top: 30px;
+}
+.muestraTotal .mensaje{
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+
+}
+.muestraTotal .total{
+    width: 100%;
+    text-align: center;
+
+}

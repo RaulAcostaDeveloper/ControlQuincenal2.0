@@ -1,0 +1,110 @@
+.MenuDesplegable{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.MenuDesplegable .exterior{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+    cursor: pointer;
+}
+.MenuDesplegable .exterior:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.MenuDesplegable .interior{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 270px;
+    height: 100vh;
+    background-color: rgb(240, 248, 255);
+    color: rgb(56, 54, 54);
+    padding: 10px;
+}
+.MenuDesplegable .interior .header{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+}
+.MenuDesplegable .interior .header .title{
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.MenuDesplegable .interior .header .subtitle{
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.MenuDesplegable .interior .enlaces{
+    display: block;
+    width: 100%;
+}
+.MenuDesplegable .interior .enlaces .el{
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid rgba(0, 0, 0,0.3);
+
+}
+.MenuDesplegable .interior .enlaces .el .link:hover{
+    background-color: rgb(221, 232, 241);
+
+}
+.MenuDesplegable .interior .enlaces .el .link{
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: rgb(56, 54, 54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media (min-width: 670px) {
+    .MenuDesplegable .interior{
+        display: none;
+    }
+}
+
+/* ANIMACIÓN MENÚ */
+#openMenuAnimation {
+    animation-name: openMenu;
+    animation-duration: 500ms;
+}
+@keyframes openMenu {
+    0% {
+      width: 0px;
+    }
+    100% {
+        width: 270px;
+    }
+}
+#closeMenuAnimation {
+    animation-name: closeMenu;
+    animation-duration: 500ms;
+}
+@keyframes closeMenu {
+    0% {
+      width: 270px;
+    }
+    100% {
+        width: 0;
+    }
+}
