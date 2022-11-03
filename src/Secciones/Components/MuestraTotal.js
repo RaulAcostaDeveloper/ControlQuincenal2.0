@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import '../Styles/MuestraTotal.css';
-const MuestraTotal = ({elementos, mensaje})=>{
+const MuestraTotal = ({elementos, mensaje, setTotalExt})=>{
     const [total, setTotal] = useState(0);
-
     useEffect(()=>{
         if (elementos.length>0) {
             let totalTemp = 0;
@@ -13,7 +12,8 @@ const MuestraTotal = ({elementos, mensaje})=>{
         } else{
             setTotal(0);
         }
-    },[elementos])
+    },[elementos]);
+    setTotalExt(total);
     return (
         <div className="muestraTotal">
             <div className="mensaje">{mensaje}</div>

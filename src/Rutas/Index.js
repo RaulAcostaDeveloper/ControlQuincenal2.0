@@ -4,7 +4,7 @@ import './Styles/GlobalPage.css';
 import './Styles/Index.css';
 
 const Index = ()=>{
-    const [ingresoQuincenal, setIngresoQuincenal] = useState('');
+    const [ingresoQuincenal, setIngresoQuincenal] = useState(''); //Local Storage
     const [promedioDiarioLibre, setPromedioDiarioLibre] = useState(0);
     const [cantidadTotalLibre, setCantidadTotalLibre] = useState(0);
     useEffect(()=>{

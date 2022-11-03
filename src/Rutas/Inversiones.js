@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './Styles/GlobalPage.css';
 import Header from "../Secciones/Components/Header";
 import BotonAniadir from "../Secciones/Components/BotonAniadir";
@@ -13,8 +13,24 @@ const Inversiones = ()=>{
     const [keyElementoEditar, setKeyElementoEditar] = useState('');
     const [mostrarModal, setMostrarModal] = useState(false);
     const [mensajeModal, setMensajeModal] = useState('');
-    const [elementos, setElementos] = useState([]);
-    const [contadorElementos, setContadorElementos] = useState(0);
+    const [elementos, setElementos] = useState([]); //Local Storage
+    const [contadorElementos, setContadorElementos] = useState(0); //Local Storage
+    const [totalInversiones, setTotalInversiones] = useState(0); //Redux
+    // localStorage.clear(); // <--------------------------------------------------------
+    useEffect(()=>{
+        let items = JSON.parse(localStorage.getItem('inversiones-control-quincenal2.0-LocalStorage'));
+        if (items) {
+            if (items.contadorElementos>0) {
+                setElementos(items.elementos);
+                setContadorElementos(items.contadorElementos);
+            }
+        }
+    },[]);
+    useEffect(()=>{
+        if (elementos.length>0 && contadorElementos>0) { //Previene el primer render vacío
+            localStorage.setItem('inversiones-control-quincenal2.0-LocalStorage', JSON.stringify({elementos, contadorElementos}));
+        }
+    },[elementos])
     const cumpleValidaciones = (data) => {
         // Validaciones
         if (data.titulo.length<=0) {
@@ -84,7 +100,7 @@ const Inversiones = ()=>{
             <Header title={'Inversiones'}/>
             <BotonAniadir setMostrarForm={setMostrarFormAniadir}/>
             <OpenModal setMostrarModal={setMostrarModal} setMensajeModal={setMensajeModal}/>
-            <MuestraTotal elementos={elementos} mensaje='Total de inversiones'/>
+            <MuestraTotal elementos={elementos} mensaje='Total de inversiones' setTotalExt={setTotalInversiones} />
             {mostrarFormAniadir&&
                 <Formulario handleSend={handleNewElemento} setMostrarForm={setMostrarFormAniadir} mensaje='Añadiendo una inversión'/>
             }
