@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { useDispatch } from 'react-redux';
 import './Styles/GlobalPage.css';
 import Header from "../Secciones/Components/Header";
 import BotonAniadir from "../Secciones/Components/BotonAniadir";
@@ -9,6 +9,7 @@ import Modal from "../Secciones/Components/Modal";
 import OpenModal from "../Secciones/Components/OpenModal";
 import MuestraTotal from "../Secciones/Components/MuestraTotal";
 const Gastos = ()=>{
+    const dispatch = useDispatch();
     const [mostrarFormAniadir, setMostrarFormAniadir] = useState(false);
     const [mostrarFormEditar, setMostrarFormEditar] = useState(false);
     const [keyElementoEditar, setKeyElementoEditar] = useState('');
@@ -31,7 +32,14 @@ const Gastos = ()=>{
         if (elementos.length>0 && contadorElementos>0) { //Previene el primer render vacío
             localStorage.setItem('gastos-control-quincenal2.0-LocalStorage', JSON.stringify({elementos, contadorElementos}));
         }
-    },[elementos])
+    },[elementos, contadorElementos]);
+    useEffect(()=>{
+        if (totalGastos>0) {
+            dispatch({ type: 'totalGastos/actualiza', payload: totalGastos });
+            localStorage.setItem('totalGastos-control-quincenal2.0-LocalStorage', JSON.stringify(totalGastos));
+
+        }
+    },[totalGastos])
     const cumpleValidaciones = (data) => {
         // Validaciones
         if (data.titulo.length<=0) {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { useDispatch } from 'react-redux';
 import './Styles/GlobalPage.css';
 import Header from "../Secciones/Components/Header";
 import BotonAniadir from "../Secciones/Components/BotonAniadir";
@@ -9,6 +9,7 @@ import Modal from "../Secciones/Components/Modal";
 import OpenModal from "../Secciones/Components/OpenModal";
 import MuestraTotal from "../Secciones/Components/MuestraTotal";
 const Lujos = ()=>{
+    const dispatch = useDispatch();
     const [mostrarFormAniadir, setMostrarFormAniadir] = useState(false);
     const [mostrarFormEditar, setMostrarFormEditar] = useState(false);
     const [keyElementoEditar, setKeyElementoEditar] = useState('');
@@ -20,7 +21,6 @@ const Lujos = ()=>{
     // localStorage.clear(); // <--------------------------------------------------------
     useEffect(()=>{
         let items = JSON.parse(localStorage.getItem('lujos-control-quincenal2.0-LocalStorage'));
-        console.log(items);
         if (items) {
             if (items.contadorElementos>0) {
                 setElementos(items.elementos);
@@ -32,7 +32,14 @@ const Lujos = ()=>{
         if (elementos.length>0 && contadorElementos>0) { //Previene el primer render vacío
             localStorage.setItem('lujos-control-quincenal2.0-LocalStorage', JSON.stringify({elementos, contadorElementos}));
         }
-    },[elementos]);
+    },[elementos, contadorElementos]);
+    useEffect(()=>{
+        if (totalLujos>0) {
+            dispatch({ type: 'totalLujos/actualiza', payload: totalLujos });
+            localStorage.setItem('totalLujos-control-quincenal2.0-LocalStorage', JSON.stringify(totalLujos));
+
+        }
+    },[totalLujos])
     const cumpleValidaciones = (data) => {
         // Validaciones
         if (data.titulo.length<=0) {

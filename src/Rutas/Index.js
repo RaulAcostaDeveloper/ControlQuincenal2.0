@@ -2,17 +2,31 @@ import { useEffect, useState } from "react";
 import Header from "../Secciones/Components/Header";
 import './Styles/GlobalPage.css';
 import './Styles/Index.css';
+import { useSelector } from 'react-redux';
+import { selectInversiones, selectGastos, selectLujos } from "../Redux/selectores";
 
 const Index = ()=>{
+    const totalInversiones = useSelector(selectInversiones);	
+    const totalGastos = useSelector(selectGastos);	
+    const totalLujos = useSelector(selectLujos);	
+
     const [ingresoQuincenal, setIngresoQuincenal] = useState(''); //Local Storage
     const [promedioDiarioLibre, setPromedioDiarioLibre] = useState(0);
     const [cantidadTotalLibre, setCantidadTotalLibre] = useState(0);
     useEffect(()=>{
-        if (ingresoQuincenal>15) {
-            setPromedioDiarioLibre(Math.round(ingresoQuincenal/15))
-            setCantidadTotalLibre(Math.round(ingresoQuincenal))
+        let items = JSON.parse(localStorage.getItem('ingresoQuincenal-control-quincenal2.0-LocalStorage'));
+        if (items) {
+            setIngresoQuincenal(items);
         }
-    },[ingresoQuincenal])
+    },[])
+    useEffect(()=>{
+        if (ingresoQuincenal>15) {
+            let totalUsado = totalInversiones + totalGastos + totalLujos;
+            setPromedioDiarioLibre(Math.round((ingresoQuincenal - totalUsado)/15));
+            setCantidadTotalLibre(Math.round(ingresoQuincenal - totalUsado));
+            localStorage.setItem('ingresoQuincenal-control-quincenal2.0-LocalStorage', JSON.stringify(ingresoQuincenal));
+        }
+    },[ingresoQuincenal]);
     return (
         <div className="Page">
             <Header title={'Control Quincenal'}/>

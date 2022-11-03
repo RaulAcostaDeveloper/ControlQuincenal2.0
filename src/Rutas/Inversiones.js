@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
 import './Styles/GlobalPage.css';
 import Header from "../Secciones/Components/Header";
 import BotonAniadir from "../Secciones/Components/BotonAniadir";
@@ -8,6 +9,7 @@ import Modal from "../Secciones/Components/Modal";
 import OpenModal from "../Secciones/Components/OpenModal";
 import MuestraTotal from "../Secciones/Components/MuestraTotal";
 const Inversiones = ()=>{
+    const dispatch = useDispatch();
     const [mostrarFormAniadir, setMostrarFormAniadir] = useState(false);
     const [mostrarFormEditar, setMostrarFormEditar] = useState(false);
     const [keyElementoEditar, setKeyElementoEditar] = useState('');
@@ -30,7 +32,13 @@ const Inversiones = ()=>{
         if (elementos.length>0 && contadorElementos>0) { //Previene el primer render vacío
             localStorage.setItem('inversiones-control-quincenal2.0-LocalStorage', JSON.stringify({elementos, contadorElementos}));
         }
-    },[elementos])
+    },[elementos, contadorElementos]);
+    useEffect(()=>{
+        if (totalInversiones>0) {
+            dispatch({ type: 'totalInversiones/actualiza', payload: totalInversiones })
+            localStorage.setItem('totalInversiones-control-quincenal2.0-LocalStorage', JSON.stringify(totalInversiones));
+        }
+    },[totalInversiones]);
     const cumpleValidaciones = (data) => {
         // Validaciones
         if (data.titulo.length<=0) {
