@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../Styles/Formulario.css';
-const Formulario =({setMostrarForm, mensaje, handleSend})=>{
+const Formulario =({setMostrarForm, mensaje, handleSend, titleEditar})=>{
     const [closing, setClosing] = useState(false);
 
     const [titulo, setTitulo] = useState('');
     const [cantidad, setCantidad] = useState('');
 
+    useEffect(()=>{
+        if (titleEditar) {
+            setTitulo(titleEditar);
+        }
+    },[titleEditar])
     const handleClose = ()=>{
         setClosing(true);
         setTimeout(() => {

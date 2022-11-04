@@ -18,6 +18,7 @@ const Inversiones = ()=>{
     const [elementos, setElementos] = useState([]); //Local Storage
     const [contadorElementos, setContadorElementos] = useState(0); //Local Storage
     const [totalInversiones, setTotalInversiones] = useState(0); //Redux
+    const [titleEditar, setTitleEditar] = useState('');
     // localStorage.clear(); // <--------------------------------------------------------
     useEffect(()=>{
         let items = JSON.parse(localStorage.getItem('inversiones-control-quincenal2.0-LocalStorage'));
@@ -35,7 +36,7 @@ const Inversiones = ()=>{
     },[elementos, contadorElementos]);
     useEffect(()=>{
         if (totalInversiones>0) {
-            dispatch({ type: 'totalInversiones/actualiza', payload: totalInversiones })
+            dispatch({ type: 'totalInversiones/actualiza', payload: totalInversiones });
             localStorage.setItem('totalInversiones-control-quincenal2.0-LocalStorage', JSON.stringify(totalInversiones));
         }
     },[totalInversiones]);
@@ -83,6 +84,13 @@ const Inversiones = ()=>{
     const handleOpenEditar = (key)=>{
         console.log('handleOpenEditar ', key);
         setKeyElementoEditar(key);
+        let titulo;
+        elementos.forEach(el => {
+            if (el.key === key) {
+                titulo = el.title;
+            }
+        });
+        setTitleEditar(titulo);
         setMostrarFormEditar(true);
     }
     const handleEditar =(data)=>{
@@ -101,6 +109,7 @@ const Inversiones = ()=>{
             setElementos(nuevaLista);
             setKeyElementoEditar('');
             setMostrarFormEditar(false);
+            setTitleEditar('');
         }
     }
     return (
@@ -113,7 +122,7 @@ const Inversiones = ()=>{
                 <Formulario handleSend={handleNewElemento} setMostrarForm={setMostrarFormAniadir} mensaje='Añadiendo una inversión'/>
             }
             {mostrarFormEditar&&
-                <Formulario handleSend={handleEditar} setMostrarForm={setMostrarFormEditar} mensaje='Editando una inversión'/>
+                <Formulario handleSend={handleEditar} titleEditar={titleEditar} setMostrarForm={setMostrarFormEditar} mensaje='Editando una inversión'/>
             }
             {mostrarModal&&
                 <Modal mensajeModal={mensajeModal} setMostrarModal={setMostrarModal}/>

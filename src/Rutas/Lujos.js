@@ -18,6 +18,8 @@ const Lujos = ()=>{
     const [elementos, setElementos] = useState([]); //Local Storage
     const [contadorElementos, setContadorElementos] = useState(0); //Local Storage
     const [totalLujos, setTotalLujos] = useState(0); //Redux
+    const [titleEditar, setTitleEditar] = useState('');
+
     // localStorage.clear(); // <--------------------------------------------------------
     useEffect(()=>{
         let items = JSON.parse(localStorage.getItem('lujos-control-quincenal2.0-LocalStorage'));
@@ -84,6 +86,13 @@ const Lujos = ()=>{
     const handleOpenEditar = (key)=>{
         console.log('handleOpenEditar ', key);
         setKeyElementoEditar(key);
+        let titulo;
+        elementos.forEach(el => {
+            if (el.key === key) {
+                titulo = el.title;
+            }
+        });
+        setTitleEditar(titulo);
         setMostrarFormEditar(true);
     }
     const handleEditar =(data)=>{
@@ -114,7 +123,7 @@ const Lujos = ()=>{
                 <Formulario handleSend={handleNewElemento} setMostrarForm={setMostrarFormAniadir} mensaje='Añadiendo un lujo'/>
             }
             {mostrarFormEditar&&
-                <Formulario handleSend={handleEditar} setMostrarForm={setMostrarFormEditar} mensaje='Editando un lujo'/>
+                <Formulario handleSend={handleEditar} titleEditar={titleEditar} setMostrarForm={setMostrarFormEditar} mensaje='Editando un lujo'/>
             }
             {mostrarModal&&
                 <Modal mensajeModal={mensajeModal} setMostrarModal={setMostrarModal}/>

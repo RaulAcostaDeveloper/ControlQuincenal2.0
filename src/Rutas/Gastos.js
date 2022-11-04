@@ -18,6 +18,8 @@ const Gastos = ()=>{
     const [elementos, setElementos] = useState([]); //Local Storage
     const [contadorElementos, setContadorElementos] = useState(0); //Local Storage
     const [totalGastos, setTotalGastos] = useState(0); //Redux
+    const [titleEditar, setTitleEditar] = useState('');
+
     // localStorage.clear(); // <--------------------------------------------------------
     useEffect(()=>{
         let items = JSON.parse(localStorage.getItem('gastos-control-quincenal2.0-LocalStorage'));
@@ -84,8 +86,16 @@ const Gastos = ()=>{
     const handleOpenEditar = (key)=>{
         console.log('handleOpenEditar ', key);
         setKeyElementoEditar(key);
+        let titulo;
+        elementos.forEach(el => {
+            if (el.key === key) {
+                titulo = el.title;
+            }
+        });
+        setTitleEditar(titulo);
         setMostrarFormEditar(true);
     }
+    
     const handleEditar =(data)=>{
         if (cumpleValidaciones(data)) {
             let nuevaLista = elementos.map( el =>{
@@ -114,7 +124,7 @@ const Gastos = ()=>{
                 <Formulario handleSend={handleNewElemento} setMostrarForm={setMostrarFormAniadir} mensaje='Añadiendo un gasto'/>
             }
             {mostrarFormEditar&&
-                <Formulario handleSend={handleEditar} setMostrarForm={setMostrarFormEditar} mensaje='Editando un gasto'/>
+                <Formulario handleSend={handleEditar} titleEditar={titleEditar} setMostrarForm={setMostrarFormEditar} mensaje='Editando un gasto'/>
             }
             {mostrarModal&&
                 <Modal mensajeModal={mensajeModal} setMostrarModal={setMostrarModal}/>
