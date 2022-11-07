@@ -31,12 +31,13 @@ const Lujos = ()=>{
         }
     },[]);
     useEffect(()=>{
-        if (elementos.length>0 && contadorElementos>0) { //Previene el primer render vacío
+        if (contadorElementos>0) { //Previene el primer render vacío
             localStorage.setItem('lujos-control-quincenal2.0-LocalStorage', JSON.stringify({elementos, contadorElementos}));
         }
     },[elementos, contadorElementos]);
     useEffect(()=>{
         if (totalLujos>0) {
+            console.log('actualiza');
             dispatch({ type: 'totalLujos/actualiza', payload: totalLujos });
             localStorage.setItem('totalLujos-control-quincenal2.0-LocalStorage', JSON.stringify(totalLujos));
 

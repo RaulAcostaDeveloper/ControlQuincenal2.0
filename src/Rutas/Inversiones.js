@@ -30,7 +30,7 @@ const Inversiones = ()=>{
         }
     },[]);
     useEffect(()=>{
-        if (elementos.length>0 && contadorElementos>0) { //Previene el primer render vacío
+        if (contadorElementos>0) { //Previene el primer render vacío
             localStorage.setItem('inversiones-control-quincenal2.0-LocalStorage', JSON.stringify({elementos, contadorElementos}));
         }
     },[elementos, contadorElementos]);
